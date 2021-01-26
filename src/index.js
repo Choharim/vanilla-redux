@@ -1,5 +1,9 @@
 import { createStore } from "redux";
 
+const add = document.getElementById("add");
+const minus = document.getElementById("minus");
+const number = document.querySelector("span");
+
 const reducer = (state = 0, action) => {
   if (action.type === "add") {
     return state + 1;
@@ -12,8 +16,10 @@ const reducer = (state = 0, action) => {
 
 const store = createStore(reducer); //data 저장소
 
-store.dispatch({ type: "add" }); // reducer의 2번째 parameter에 전달할 message obj
-store.dispatch({ type: "add" });
-store.dispatch({ type: "add" });
-store.dispatch({ type: "minus" });
-console.log(store.getState()); //결과값 2
+const onChange = () => {
+  number.innerText = store.getState();
+};
+store.subscribe(onChange); //data가 바뀔때마다 호출해줌
+
+add.addEventListener("click", () => store.dispatch({ type: "add" }));
+minus.addEventListener("click", () => store.dispatch({ type: "minus" }));
